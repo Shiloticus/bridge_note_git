@@ -16,7 +16,7 @@ driver.implicitly_wait(10)
 directory = os.getcwd()
 print(directory)
 
-spreadsheet = open('C:\\Users\\bensb\\PycharmProjects\\Selenium_Test\\Files\\PythonTest.csv', mode='r')
+spreadsheet = open('C:\\Users\\bensb\\PycharmProjects\\Bridge_Notes\\Files\\PythonTest.csv', mode='r')
 
 line_count = 0
 
@@ -98,12 +98,12 @@ for row in spreadsheet:
         note_text_entry.clear()
         note_text_entry.click()
         note_text_entry.send_keys(note_text)
-        #replace with save button
+        #input("Click enter to continue") #Delete hash for test
         save_note = driver.find_element_by_xpath('//*[@id="add-note-btn"]')
         save_note.click()
         clients_search = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[1]/div/div[2]/ul[1]/li[1]/a')
         clients_search.click()
-        print("Notated " + str(column_list[1]) + "'s file: " + str(column_list[8]))
+        print(line_count + "Notated " + str(column_list[1]) + "'s file: " + str(column_list[8]))
     line_count += 1
 
 driver.close()
