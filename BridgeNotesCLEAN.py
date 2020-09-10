@@ -10,26 +10,40 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def load_csv():
-    driver = webdriver.Chrome('C:\\Users\\bensb\\MyPythonScripts\\chromedriver_win32\\chromedriver')
+    chrome_path = path + "\\ChromeDriver\\chromedriver.exe"
+    driver = webdriver.Chrome(chrome_path)
     driver.implicitly_wait(10)
     directory = os.getcwd()
     print(directory)
-    spreadsheet = open('C:\\Users\\bensb\\PycharmProjects\\Selenium_Test\\Files\\PythonTest.csv', mode='r')
+    csv_path = path + "\\Files\\BridgeNotes.csv"
+    spreadsheet = open(csv_path, mode='r')
     return driver, spreadsheet
+
+def test_fun():
+    test_y_n = 0
+    yes_no = ["Yes", "No"]
+    while test_y_n not in yes_no:
+        test_y_n = input("Would you like to test this script before running?")
+        if test_y_n not in yes_no:
+            print("Invalid input")
+        else:
+            continue
+    return test_y_n
+
 
 def login_bridge(driver):
     driver.get("https://crm.uprightlaw.com/account/login")
     input("Log in and hit Enter to proceed")
 
-    """
+
     user = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[1]/input")
     user.clear()
     user.send_keys("bbloomer@uprightlaw.com")
     password_field = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[2]/input")
-    password_field.send_keys(password)
+    password_field.send_keys("silverRabbit17$")
     login = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[3]/button")
     login.click()
-    """
+
 
 def create_table():
     row1_column = ''.join(row)
@@ -88,10 +102,13 @@ def note_text_fun():
     note_text_entry.click()
     note_text_entry.send_keys(note_text)
 
-def save_note():
-    #replace with save button
-    exit_note = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[1]/button/i')
+def exit_for_testing():
+    exit_note = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[1]/button')
     exit_note.click()
+
+def save_note():
+    save_note = driver.find_element_by_xpath('//*[@id="add-note-btn"]')
+    save_note.click()
 
 def clients_search():
     client_search = driver.find_element_by_xpath('//*[@id="root"]/div/div/div[1]/div/div[2]/ul[1]/li[1]/a')
@@ -100,10 +117,25 @@ def clients_search():
 def print_line():
     print("Notated " + str(column_list[1]) + "'s file: " + str(column_list[8]))
 
+path = os.getcwd()
+if not os.path.exists('ChromeDriver'):
+    os.makedirs('ChromeDriver')
+    print("If you do not have Chrome, please download and install Google Chrome.")
+    input("Once you have installed Google Chrome, press any key to continue")
+    print("Please download ChromeDriver.exe and add to " + path + "\\ChromeDriver")
+    print("Mac Download Link: https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_mac64.zip")
+    print("Windows Download Link: https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_win32.zip")
+    input("Once Chromedriver.exe is in " + path + "\\ChromeDriver, please press any key to continue")
 
-driver, spreadsheet= load_csv()
+if not os.path.exists('Files'):
+    os.makedirs('Files')
+    print("Add Bridge Notes CSV to " + path + "\'Files\'")
+    print("Rename the file to \'BridgeNotes\'")
+    input("Press enter when file is loaded and renamed")
+driver, spreadsheet = load_csv()
 line_count = 0
 login_bridge(driver)
+test_input = test_fun()
 for row in spreadsheet:
     if line_count > 0:
         column_list = create_table()
@@ -124,7 +156,15 @@ for row in spreadsheet:
         time_billed_fun()
         subcategory_fun()
         note_text_fun()
-        save_note()
+        if test_input == "Yes":
+            exit_for_testing()
+        elif test_input == "No":
+            save_note()
+            #print("TESTED AND CLOSED")
+            #exit_for_testing()
+        else:
+            print(test_input)
+            input("Didn't work")
         clients_search()
         print_line()
     line_count += 1
