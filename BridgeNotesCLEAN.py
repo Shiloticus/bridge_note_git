@@ -33,9 +33,6 @@ def test_fun():
 
 def login_bridge(driver):
     driver.get("https://crm.uprightlaw.com/account/login")
-    input("Log in and hit Enter to proceed")
-
-
     user = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[1]/input")
     user.clear()
     user.send_keys("bbloomer@uprightlaw.com")
@@ -53,6 +50,8 @@ def create_table():
 
 def search_for_client():
     client_search = driver.find_element_by_xpath('//*[@id="search-input"]')
+    client_search.clear()
+    time.sleep(1)
     client_search.clear()
     client_search.send_keys(column_list[2])
     search_button = driver.find_element_by_xpath('//*[@id="search-button"]')
@@ -106,6 +105,10 @@ def exit_for_testing():
     exit_note = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[1]/button')
     exit_note.click()
 
+def contact_made():
+    contact_made_button = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[2]/div[3]/div[3]/label/span[1]')
+    contact_made_button.click()
+
 def save_note():
     save_note = driver.find_element_by_xpath('//*[@id="add-note-btn"]')
     save_note.click()
@@ -155,6 +158,8 @@ for row in spreadsheet:
         category_fun()
         time_billed_fun()
         subcategory_fun()
+        if communication_type == "Other" or communication_type == "Phone":
+            contact_made()
         note_text_fun()
         if test_input == "Yes":
             exit_for_testing()
