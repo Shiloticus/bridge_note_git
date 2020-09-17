@@ -78,6 +78,7 @@ def category_fun():
     category_entry = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[3]/div[1]/div/select')
     category_entry.click()
     category_entry.send_keys(category)
+    category_entry.send_keys(Keys.TAB)
 
 def time_billed_fun():
     time_billed_entry = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[3]/div[2]/div/input')
@@ -108,6 +109,9 @@ def exit_for_testing():
 def contact_made():
     contact_made_button = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[2]/div[3]/div[3]/label/span[1]')
     contact_made_button.click()
+    # delete when bridge fixes
+    do_not_bill = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[3]/div[3]/div/label/span[1]')
+    do_not_bill.click()
 
 def save_note():
     save_note = driver.find_element_by_xpath('//*[@id="add-note-btn"]')
@@ -156,10 +160,10 @@ for row in spreadsheet:
         communication_type_fun()
         in_or_outbound_fun()
         category_fun()
-        time_billed_fun()
         subcategory_fun()
         if communication_type == "Other" or communication_type == "Phone":
             contact_made()
+        time_billed_fun()
         note_text_fun()
         if test_input == "Yes":
             exit_for_testing()
