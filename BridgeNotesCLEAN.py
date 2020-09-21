@@ -126,6 +126,10 @@ def exit_for_testing():
     exit_note = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[1]/button')
     exit_note.click()
 
+def contact_made():
+    contact_y_n = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[2]/div[3]/div[3]/label/span[1]')
+    contact_y_n.click()
+
 def save_note():
     save_note = driver.find_element_by_xpath('//*[@id="add-note-btn"]')
     save_note.click()
@@ -196,6 +200,7 @@ for row in spreadsheet:
             except:
                 input("Enter time billed and press enter")
         subcategory_fun()
+        contact_made()
         note_text_fun()
         if test_input == "Yes":
             exit_for_testing()
