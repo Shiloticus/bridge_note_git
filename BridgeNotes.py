@@ -5,12 +5,11 @@ import selenium
 import os
 import time
 import csv
-import pyperclip
 from selenium.webdriver.support import expected_conditions as EC
 
 
 #password = input("What is your Password?")
-driver = webdriver.Chrome('C:\\Users\\bensb\\MyPythonScripts\\chromedriver_win32\\chromedriver')
+driver = webdriver.Chrome()
 driver.implicitly_wait(10)
 
 directory = os.getcwd()

@@ -33,9 +33,6 @@ def test_fun():
 
 def login_bridge(driver):
     driver.get("https://crm.uprightlaw.com/account/login")
-    input("Log in and hit Enter to proceed")
-
-
     user = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[1]/input")
     user.clear()
     user.send_keys("bbloomer@uprightlaw.com")
@@ -43,6 +40,7 @@ def login_bridge(driver):
     password_field.send_keys("silverRabbit17$")
     login = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[3]/button")
     login.click()
+    input("Log in and hit Enter to proceed")
 
 
 def create_table():
@@ -52,18 +50,40 @@ def create_table():
 
 
 def search_for_client():
-    client_search = driver.find_element_by_xpath('//*[@id="search-input"]')
-    client_search.clear()
-    client_search.send_keys(column_list[2])
-    search_button = driver.find_element_by_xpath('//*[@id="search-button"]')
-    search_button.click()
-    name = driver.find_element_by_xpath('//*[@id="intro-step-2"]/div[2]')
-    name.click()
+    try:
+        client_search = driver.find_element_by_xpath('//*[@id="search-input"]')
+        client_search.clear()
+        client_search.send_keys(column_list[2])
+        search_button = driver.find_element_by_xpath('//*[@id="search-button"]')
+        search_button.click()
+        name = driver.find_element_by_xpath('//*[@id="intro-step-2"]/div[2]')
+        name.click()
+    except:
+        try:
+            client_search = driver.find_element_by_xpath('//*[@id="search-input"]')
+            client_search.clear()
+            time.sleep(1)
+            client_search.clear()
+            time.sleep(1)
+            client_search.clear()
+            client_search.send_keys(column_list[2])
+            search_button = driver.find_element_by_xpath('//*[@id="search-button"]')
+            search_button.click()
+            name = driver.find_element_by_xpath('//*[@id="intro-step-2"]/div[2]')
+            name.click()
+        except:
+            print("Stuck on this CL: " + column_list[1] + "  :  " + column_list[2])
+            input("Open next client file and press enter")
     return
 
 def click_add_notes():
-    add_note = driver.find_element_by_xpath('//*[@id="add-note"]')
-    add_note.click()
+    try:
+        add_note = driver.find_element_by_xpath('//*[@id="add-note"]')
+        add_note.click()
+    except:
+        time.sleep(2)
+        add_note = driver.find_element_by_xpath('//*[@id="add-note"]')
+        add_note.click()
 
 def communication_type_fun():
     communication_type_entry = driver.find_element_by_xpath('/html/body/div[4]/div[2]/div/div/div[2]/div[2]/div[1]/div/select')
@@ -148,12 +168,33 @@ for row in spreadsheet:
         if column_list[3] == "NA":
             print("Skipped " + str(column_list[1]))
             continue
-        search_for_client()
-        click_add_notes()
+        try:
+            search_for_client()
+        except:
+            try:
+                time.sleep(2)
+                search_for_client()
+            except:
+                input("Search for " + column_list[1] + " manually and press enter")
+        try:
+            click_add_notes()
+        except:
+            try:
+                time.sleep(2)
+                click_add_notes()
+            except:
+                input("Click add note and press enter")
         communication_type_fun()
         in_or_outbound_fun()
         category_fun()
-        time_billed_fun()
+        try:
+            time_billed_fun()
+        except:
+            try:
+                time.sleep(2)
+                time_billed_fun()
+            except:
+                input("Enter time billed and press enter")
         subcategory_fun()
         note_text_fun()
         if test_input == "Yes":
@@ -165,7 +206,15 @@ for row in spreadsheet:
         else:
             print(test_input)
             input("Didn't work")
-        clients_search()
+
+        try:
+            clients_search()
+        except:
+            try:
+                time.sleep(2)
+                clients_search()
+            except:
+                input("Click 'Clients' and press enter")
         print_line()
     line_count += 1
 
