@@ -11,16 +11,11 @@ from selenium.webdriver.support import expected_conditions as EC
 #password = input("What is your Password?")
 driver = webdriver.Chrome()
 driver.implicitly_wait(10)
-
 directory = os.getcwd()
 print(directory)
-
 spreadsheet = open('C:\\Users\\bensb\\PycharmProjects\\Bridge_Notes\\Files\\PythonTest.csv', mode='r')
-
 line_count = 0
-
 driver.get("https://crm.uprightlaw.com/account/login")
-
 user = driver.find_element_by_xpath("//*[@id='root']/div/div/div/div/div[2]/div[1]/input")
 user.clear()
 user.send_keys("bbloomer@uprightlaw.com")
